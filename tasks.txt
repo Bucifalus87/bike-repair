@@ -1,0 +1,13 @@
+Your next assignment will be:
+Come up with a viable concept, e.g. a small business idea. 
+And the idea is a  Mobile Bike Repair Service
+Create DTOs for it
+Create the controller, service and repository layers
+Create a producer and consumer
+Persist the DTOs as entities in a database (your choice)
+Make the commits nice and readable (one feature per commit or so)
+ 
+The db and kafka can be spun up images (which I highly encourage)
+
+
+

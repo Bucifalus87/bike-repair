@@ -1,0 +1,40 @@
+after shutdown or restart I need to run the following commands. 
+git bash
+
+podman start bike_postgres: this starts the sql container
+podman start zookeeper_bike_repair: this starts the zookeeper container
+podman start kafka_bike_repair: this starts the kafka container
+podman ps: to check if the container are running
+
+also optional is to automate with a script:
+create a script start_bike_repair_env.sh
+navigate to project folder
+open git bash inside that folder
+type: 
+nano start_bike_repair_env.sh
+inside type:
+
+
+#!/bin/bash
+
+echo "Starting Mobile Bike Repair containers..."
+
+podman start bike_postgres
+podman start zookeeper_bike_repair
+podman start kafka_bike_repair
+
+echo "All containers started:"
+podman ps
+
+then pres ctrl+o, pres enter to save, pres ctrl+x to exit. 
+
+make the start_bike_repair_env.sh executable
+chmod +x start_bike_repair_env.sh
+
+
+
+
+git bash
+./start_bike_repair_env.sh: this is the command to start the containers 
+
+GitHub repository: https://github.com/Bucifalus87/bike-repair.git

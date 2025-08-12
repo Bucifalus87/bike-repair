@@ -1,17 +1,8 @@
-server:
-  port: 8081
-  error:
-    include-message: always
-    include-binding-errors: always
-    include-stacktrace: always
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/bike_repair_db
     username: postgres
     password: postgres
-    driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,9 +13,14 @@ spring:
 
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: bike-repair-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
+server:
+  port: 8081

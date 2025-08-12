@@ -1,41 +1,33 @@
 package com.mobilebikerepair.bikerepair.mapper;
 
 import com.mobilebikerepair.bikerepair.dto.RepairRequestDTO;
-import com.mobilebikerepair.bikerepair.model.Customer;
 import com.mobilebikerepair.bikerepair.model.RepairRequest;
-import com.mobilebikerepair.bikerepair.model.RepairType;
-import com.mobilebikerepair.bikerepair.model.Technician;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RepairRequestMapper {
 
-    public static RepairRequestDTO toDTO(RepairRequest repairRequest) {
-        if (repairRequest == null) {
+    public RepairRequestDTO toDto(RepairRequest entity) {
+        if (entity == null) {
             return null;
         }
-        return RepairRequestDTO.builder()
-                .id(repairRequest.getId())
-                .description(repairRequest.getDescription())
-                .status(repairRequest.getStatus())
-                .customerId(repairRequest.getCustomer() != null ? repairRequest.getCustomer().getId() : null)
-                .customerName(repairRequest.getCustomer() != null ? repairRequest.getCustomer().getName() : null)
-                .technicianId(repairRequest.getTechnician() != null ? repairRequest.getTechnician().getId() : null)
-                .technicianName(repairRequest.getTechnician() != null ? repairRequest.getTechnician().getName() : null)
-                .repairTypeId(repairRequest.getRepairType() != null ? repairRequest.getRepairType().getId() : null)
-                .repairTypeName(repairRequest.getRepairType() != null ? repairRequest.getRepairType().getName() : null)
-                .build();
+        return new RepairRequestDTO(
+                entity.getId(),
+                entity.getDescription(),
+                entity.getState(),
+                entity.getCustomer() != null ? entity.getCustomer().getId() : null
+        );
     }
 
-    public static RepairRequest toEntity(RepairRequestDTO dto, Customer customer, Technician technician, RepairType repairType) {
+    public RepairRequest toEntity(RepairRequestDTO dto) {
         if (dto == null) {
             return null;
         }
-        RepairRequest repairRequest = new RepairRequest();
-        repairRequest.setId(dto.getId());
-        repairRequest.setDescription(dto.getDescription());
-        repairRequest.setStatus(dto.getStatus());
-        repairRequest.setCustomer(customer);
-        repairRequest.setTechnician(technician);
-        repairRequest.setRepairType(repairType);
-        return repairRequest;
+        RepairRequest entity = new RepairRequest();
+        entity.setId(dto.getId());
+        entity.setDescription(dto.getDescription());
+        entity.setState(dto.getState());
+        // customer is set in service layer
+        return entity;
     }
 }

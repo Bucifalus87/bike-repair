@@ -1,36 +1,30 @@
 package com.mobilebikerepair.bikerepair.model;
 
-
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
+import lombok.*;
 
 @Entity
+@Table(name = "repair_requests")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class RepairRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String description;
-    private String location;
-    private String status; // e.g., NEW, ASSIGNED, IN_PROGRESS, DONE
+
+    @Column(nullable = false)
+    private String state;
 
     @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @ToString.Exclude
     private Customer customer;
-
-    @ManyToOne
-    private Technician technician;
-
-    @ManyToOne
-    private RepairType repairType;
-
-    @OneToMany(mappedBy = "repairRequest", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
 }

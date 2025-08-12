@@ -1,15 +1,12 @@
 package com.mobilebikerepair.bikerepair.service;
 
-import com.mobilebikerepair.bikerepair.dto.CustomerRequestDTO;
-import com.mobilebikerepair.bikerepair.dto.CustomerResponseDTO;
+import com.mobilebikerepair.bikerepair.dto.CustomerDTO;
 import java.util.List;
 
-
 public interface CustomerService {
-    CustomerResponseDTO createCustomer(CustomerRequestDTO dto);
-    CustomerResponseDTO getCustomerById(Long id);
-    List<CustomerResponseDTO> getAllCustomers();
-    CustomerResponseDTO updateCustomer(Long id, CustomerRequestDTO dto);
-    void deleteCustomer(Long id);
+    List<CustomerDTO> getAll();
+    CustomerDTO getById(Long id);
+    CustomerDTO create(CustomerDTO dto);
+    CustomerDTO update(Long id, CustomerDTO dto);
+    void delete(Long id);
 }
-

@@ -2,28 +2,30 @@ package com.mobilebikerepair.bikerepair.mapper;
 
 import com.mobilebikerepair.bikerepair.dto.CustomerDTO;
 import com.mobilebikerepair.bikerepair.model.Customer;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerMapper {
 
-    public static CustomerDTO toDTO(Customer customer) {
-        if (customer == null) {
+    public CustomerDTO toDto(Customer entity) {
+        if (entity == null) {
             return null;
         }
-        return CustomerDTO.builder()
-                .id(customer.getId())
-                .name(customer.getName())
-                .email(customer.getEmail())
-                .build();
+        return new CustomerDTO(
+                entity.getId(),
+                entity.getName(),
+                entity.getEmail()
+        );
     }
 
-    public static Customer toEntity(CustomerDTO dto) {
+    public Customer toEntity(CustomerDTO dto) {
         if (dto == null) {
             return null;
         }
-        Customer customer = new Customer();
-        customer.setId(dto.getId());
-        customer.setName(dto.getName());
-        customer.setEmail(dto.getEmail());
-        return customer;
+        Customer entity = new Customer();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setEmail(dto.getEmail());
+        return entity;
     }
 }

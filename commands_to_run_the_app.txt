@@ -43,22 +43,36 @@ GitHub repository: https://github.com/Bucifalus87/bike-repair.git
 
 
 test in postman:
-POST http://localhost:8081/api/customers
 
+
+Basic auth until security in place
+
+Username: user
+Password: password
+
+POST http://localhost:8081/customers
 JSON: 
 { 
-"name": "Alex", 
-"email": "alex@example.com", 
-"phone": "+40722123456",
-"username": "alex1",
-"password": "Passw0rd!"
+  "name": "Alex", 
+  "email": "alex@example.com" 
 }
 
-test for the increment id with this json:
+POST http://localhost:8081/repair-requests
 { 
-"name": "Chris", 
-"email": "chris@example.com", 
-"phone": "+40722123457",
-"username": "Chris1",
-"password": "Passw0rd!"
+  "description": "Flat tire", 
+  "state": "PENDING", 
+  "customerId": 1 
 }
+
+GET http://localhost:8081/repair-requests
+should see a json with all the repair requests made
+
+PATCH http://localhost:8081/customers/1
+{
+  "name": "Alex Updated",
+  "email": "alex.new@example.com"
+}
+
+DELETE http://localhost:8081/customers/1
+this will delete the customer and the requests made by customer 
+

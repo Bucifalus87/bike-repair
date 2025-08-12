@@ -35,6 +35,30 @@ chmod +x start_bike_repair_env.sh
 
 
 git bash
+in the bike repair folder open git bash then run:
+podman machine start: to start podman which does not auto start when the pc boots. 
 ./start_bike_repair_env.sh: this is the command to start the containers 
 
 GitHub repository: https://github.com/Bucifalus87/bike-repair.git
+
+
+test in postman:
+POST http://localhost:8081/api/customers
+
+JSON: 
+{ 
+"name": "Alex", 
+"email": "alex@example.com", 
+"phone": "+40722123456",
+"username": "alex1",
+"password": "Passw0rd!"
+}
+
+test for the increment id with this json:
+{ 
+"name": "Chris", 
+"email": "chris@example.com", 
+"phone": "+40722123457",
+"username": "Chris1",
+"password": "Passw0rd!"
+}

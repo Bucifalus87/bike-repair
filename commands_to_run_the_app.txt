@@ -76,3 +76,21 @@ PATCH http://localhost:8081/customers/1
 DELETE http://localhost:8081/customers/1
 this will delete the customer and the requests made by customer 
 
+kafka topic. 
+git bash
+start the kafka container:
+podman start kafka_bike_repair
+
+
+enter the container
+podman exec -it kafka_bike_repair bash
+
+inside the container: /opt/bitnami/kafka/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic repair-request-created
+
+if you want to see the raw kafka message live, open a second terminal and type:
+podman exec -it kafka_bike_repair bash -lc '/opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic repair-request-created --from-beginning'
+this will display all the topics created by the consumer regarding the repair request. 
+
+
+
+

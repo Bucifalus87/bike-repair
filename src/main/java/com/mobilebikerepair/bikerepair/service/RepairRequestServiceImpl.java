@@ -2,6 +2,7 @@ package com.mobilebikerepair.bikerepair.service;
 
 import com.mobilebikerepair.bikerepair.dto.RepairRequestDTO;
 import com.mobilebikerepair.bikerepair.exception.NotFoundException;
+import com.mobilebikerepair.bikerepair.kafka.RepairEventProducer;
 import com.mobilebikerepair.bikerepair.mapper.RepairRequestMapper;
 import com.mobilebikerepair.bikerepair.model.Customer;
 import com.mobilebikerepair.bikerepair.model.RepairRequest;
@@ -21,6 +22,7 @@ public class RepairRequestServiceImpl implements RepairRequestService {
     private final RepairRequestRepository repairRequestRepository;
     private final CustomerRepository customerRepository;
     private final RepairRequestMapper repairRequestMapper;
+    private final RepairEventProducer repairEventProducer;
 
     @Override
     public List<RepairRequestDTO> getAll() {
@@ -40,13 +42,22 @@ public class RepairRequestServiceImpl implements RepairRequestService {
 
     @Override
     public RepairRequestDTO create(RepairRequestDTO dto) {
+        // Ensure customer exists
         Customer customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
 
-        RepairRequest repairRequest = repairRequestMapper.toEntity(dto);
-        repairRequest.setCustomer(customer);
+        // Map and set relations
+        RepairRequest entity = repairRequestMapper.toEntity(dto);
+        entity.setCustomer(customer);
 
-        return repairRequestMapper.toDto(repairRequestRepository.save(repairRequest));
+        // Persist
+        RepairRequest saved = repairRequestRepository.save(entity);
+
+        // Publish Kafka event (non-blocking)
+        repairEventProducer.sendRepairCreated(saved);
+
+        // Return DTO
+        return repairRequestMapper.toDto(saved);
     }
 
     @Override
